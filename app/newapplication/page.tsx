@@ -78,7 +78,7 @@ const LoanApplicationForm = () => {
       const applicationId = randomID();
       const applicationData = {
         userId: loggedInUser,
-        applicationId,
+        id : applicationId,
         ...formData,
         fundingReceived: 0,
         fundingStatus: "pending",
