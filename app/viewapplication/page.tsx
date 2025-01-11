@@ -1,17 +1,17 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import { db } from '../firebase';
-import { doc, getDoc } from 'firebase/firestore';
-import { useSearchParams, useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
-import './page.css';
+import { useEffect, useState } from "react";
+import { db } from "../firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { useSearchParams, useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import "./page.css";
 
 interface Application {
   id: string;
   companyName: string;
   businessType: string;
-  tags: string[];
+  tags: Array<string | { tag: string; isSpecial: boolean }>;
   loanPurpose: string;
   yearsInOperation: number;
   annualRevenue: number;
@@ -26,7 +26,7 @@ interface Application {
 const ViewApplicationPage = () => {
   const search = useSearchParams();
   const router = useRouter();
-  const applicationId = search.get('id');
+  const applicationId = search.get("id");
   const [application, setApplication] = useState<Application | null>(null);
 
   useEffect(() => {
@@ -34,18 +34,18 @@ const ViewApplicationPage = () => {
       if (!applicationId) return;
 
       try {
-        const appRef = doc(db, 'applications', applicationId);
+        const appRef = doc(db, "applications", applicationId);
         const appSnap = await getDoc(appRef);
 
         if (appSnap.exists()) {
           setApplication(appSnap.data() as Application);
-          toast.success('Application found!');
+          toast.success("Application found!");
         } else {
-          toast.error('Application not found!');
+          toast.error("Application not found!");
         }
       } catch (error) {
-        console.error('Error fetching application:', error);
-        toast.error('Error fetching application!');
+        console.error("Error fetching application:", error);
+        toast.error("Error fetching application!");
       }
     };
 
@@ -56,54 +56,102 @@ const ViewApplicationPage = () => {
     router.push(`/bidding/?id=${application?.id}`);
   };
 
+  const hasSpecialTag = application?.tags?.some(
+    (tag) => typeof tag === "object" && tag.isSpecial
+  );
+
   return (
     <div
       className="view-application-container"
       style={{
-        padding: '20px',
-        marginTop: '20px',
-        backgroundColor: '#121212',
-        color: '#ffffff',
+        padding: "20px",
+        marginTop: "20px",
+        backgroundColor: "#121212",
+        color: "#ffffff",
       }}
     >
       {application ? (
         <div
           className="application-details"
           style={{
-            maxWidth: '800px',
-            margin: '0 auto',
-            background: '#1e1e1e',
-            padding: '30px',
-            borderRadius: '10px',
-            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-            marginTop: '40px',
+            maxWidth: "800px",
+            margin: "0 auto",
+            background: "#1e1e1e",
+            padding: "30px",
+            borderRadius: "10px",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+            marginTop: "40px",
           }}
         >
           <h1
             className="application-title"
             style={{
-              fontSize: '28px',
-              marginBottom: '20px',
-              textAlign: 'center',
-              color: '#90caf9',
+              fontSize: "28px",
+              marginBottom: "10px",
+              textAlign: "center",
+              color: "#90caf9",
             }}
           >
             {application.companyName}
           </h1>
 
+          {hasSpecialTag && (
+            <div
+              className="eco-popup"
+              style={{
+                marginBottom: "20px",
+                padding: "10px",
+                backgroundColor: "#2a2a2a",
+                border: "1px solid #4caf50",
+                color: "#4caf50",
+                textAlign: "center",
+                borderRadius: "5px",
+                fontWeight: "bold",
+              }}
+            >
+              🌱 This application fuels the eco dream!
+            </div>
+          )}
+
           <div
             className="details-grid"
             style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: '10px',
-              marginBottom: '20px',
-              color: '#e0e0e0',
-              rowGap: '10px',
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "10px",
+              marginBottom: "20px",
+              color: "#e0e0e0",
+              rowGap: "10px",
             }}
           >
             <p><strong>Business Type:</strong> {application.businessType}</p>
-            <p><strong>Tags:</strong> {application?.tags?.join(', ')}</p>
+            <p>
+              <strong>Tags:</strong>{" "}
+              {application?.tags
+                ?.map((tag) => {
+                  if (typeof tag === "object") {
+                    const tagName = tag.tag || "Unknown Tag";
+                    const isSpecial = tag.isSpecial;
+                    return (
+                      <span
+                        key={tagName}
+                        style={{
+                          color: isSpecial ? "green" : "inherit", // Highlight special tags in green
+                          fontWeight: isSpecial ? "bold" : "normal",
+                        }}
+                      >
+                        {tagName}
+                      </span>
+                    );
+                  }
+                  return <span key={tag}>{tag}</span>;
+                })
+                .reduce<React.ReactNode[]>((acc, curr, idx) => [
+                  ...acc,
+                  idx > 0 ? ", " : null,
+                  curr,
+                ].filter(Boolean), [])}
+            </p>
             <p><strong>Loan Purpose:</strong> {application.loanPurpose}</p>
             <p><strong>Years in Operation:</strong> {application.yearsInOperation}</p>
             <p><strong>Annual Revenue:</strong> {application.annualRevenue}</p>
@@ -116,12 +164,12 @@ const ViewApplicationPage = () => {
           <div
             className="pitch-box"
             style={{
-              marginBottom: '20px',
-              color: '#e0e0e0',
-              border: '1px solid #333',
-              padding: '15px',
-              borderRadius: '8px',
-              background: '#2a2a2a',
+              marginBottom: "20px",
+              color: "#e0e0e0",
+              border: "1px solid #333",
+              padding: "15px",
+              borderRadius: "8px",
+              background: "#2a2a2a",
             }}
           >
             <p><strong>Pitch:</strong> {application.pitch}</p>
@@ -130,21 +178,21 @@ const ViewApplicationPage = () => {
           <div
             className="videolink"
             style={{
-              marginBottom: '20px',
-              padding: '15px',
-              borderRadius: '8px',
-              background: '#2a2a2a',
-              border: '1px solid #333',
+              marginBottom: "20px",
+              padding: "15px",
+              borderRadius: "8px",
+              background: "#2a2a2a",
+              border: "1px solid #333",
             }}
           >
             <p>
-              <strong>Pitch Video Link:</strong>
+              <strong>Pitch Video Link:</strong>{" "}
               <a
                 href={application.videoLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="video-link"
-                style={{ color: '#64b5f6', textDecoration: 'underline' }}
+                style={{ color: "#64b5f6", textDecoration: "underline" }}
               >
                 Watch Video
               </a>
@@ -156,13 +204,13 @@ const ViewApplicationPage = () => {
             type="button"
             className="bg-green-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
             style={{
-              width: '100%',
-              padding: '12px',
-              fontSize: '16px',
-              backgroundColor: '#64b5f6',
-              color: '#000000',
-              borderRadius: '8px',
-              marginTop: '15px',
+              width: "100%",
+              padding: "12px",
+              fontSize: "16px",
+              backgroundColor: "#64b5f6",
+              color: "#000000",
+              borderRadius: "8px",
+              marginTop: "15px",
             }}
           >
             Click to Bid
@@ -171,9 +219,9 @@ const ViewApplicationPage = () => {
       ) : (
         <p
           style={{
-            textAlign: 'center',
-            fontSize: '18px',
-            color: '#e0e0e0',
+            textAlign: "center",
+            fontSize: "18px",
+            color: "#e0e0e0",
           }}
         >
           Loading application details...
