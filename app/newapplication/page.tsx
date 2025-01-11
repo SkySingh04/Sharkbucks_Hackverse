@@ -13,11 +13,12 @@ import { useSearchParams, useRouter } from 'next/navigation';
 
 const LoanApplicationForm = () => {
   const [loggedInUser, setLoggedInUser] = useState("");
+  const [submittedApplicationId, setSubmmittedApplicationId] = useState(0);
   const [goal, setGoal] = useState(0);
   const search = useSearchParams();
   const router = useRouter();
-  const userId = search.get("userId");
-  const applicationNumber = search.get("id");
+  // const userId = search.get("userId");
+  // const applicationNumber = search.get("id");
   const { edgestore } = useEdgeStore();
 
   const [files, setFiles] = useState<{
@@ -72,10 +73,11 @@ const LoanApplicationForm = () => {
   const handleApplicationSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
   
-    setIsSubmitting(true); // Optional: Display a loader during processing
+    setIsSubmitting(true); 
   
     try {
       const applicationId = randomID();
+      setSubmmittedApplicationId(applicationId);
       const applicationData = {
         userId: loggedInUser,
         id : applicationId,
@@ -185,20 +187,22 @@ const LoanApplicationForm = () => {
 
     setIsSubmitting(true);
     try {
-      if (userId) {
+      if (loggedInUser) {
         const applicationRef = getDocs(collection(db, "applications"));
         const urls = Object.values(files).map(file => file.url);
         
         (await applicationRef).forEach(async (doc) => {
-          if (doc.data().userId === userId) {
+          if (doc.data().userId === loggedInUser) {
             await updateDoc(doc.ref, {
               documents: urls,
             });
           }
         });
       }
+      console.log("Application number:", submittedApplicationId);
+      console.log("User ID:", loggedInUser);
       toast.success("All documents submitted successfully!");
-      router.push("/pitch/?id=" + applicationNumber + "&userId=" + userId);
+      router.push("/pitch/?id=" + submittedApplicationId+ "&userId=" + loggedInUser);
     } catch (error) {
       toast.error("Error submitting documents!");
     }

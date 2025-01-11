@@ -158,7 +158,7 @@ const App = () => {
 
       toast.success('Application submitted successfully');
       // console.log (applicationId.toString())
-      // router.push('/viewapplication/?id=' + applicationId.toString());
+      router.push('/viewapplication/?id=' + applicationId.toString());
     } catch (e) {
       console.error("Error adding document: ", e);
       toast.error('Error submitting application');

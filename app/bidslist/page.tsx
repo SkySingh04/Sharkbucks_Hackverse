@@ -3,9 +3,11 @@ import { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { collection, query, where, getDocs, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useSearchParams, useRouter } from 'next/navigation';
-import sgMail from '@sendgrid/mail';
+import { Resend } from 'resend';
 
-sgMail.setApiKey(process.env.NEXT_PUBLIC_SENDGRID_API_KEY as string);
+
+
+const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
 
 const MyComponent = () => {
     const [filteredBids, setFilteredBids] = useState<any[]>([]);
@@ -73,12 +75,14 @@ const MyComponent = () => {
                 const userEmail = userDataSnap.exists() ? userDataSnap.data()?.email : null;
 
                 if (userEmail) {
-                    await sgMail.send({
-                        to: userEmail,
-                        from: 'skysingh040@gmail.com',
-                        subject: 'Bid Finalized',
-                        text: 'Your bid was finalized.',
-                    });
+                    
+resend.emails.send({
+    from: 'akashsingh2210670@gmail.com',
+    to: "skysingh04@gmail.com",
+    subject: 'Hello World',
+    html: '<p>Congrats on sending your <strong>first email</strong>!</p>'
+  });
+  
                 }
             }
         }
