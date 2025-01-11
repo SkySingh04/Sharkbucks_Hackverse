@@ -137,18 +137,17 @@ const ViewApplicationPage = () => {
               border: '1px solid #333',
             }}
           >
-            <p>
-              <strong>Pitch Video Link:</strong>
-              <a
-                href={application.videoLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="video-link"
-                style={{ color: '#64b5f6', textDecoration: 'underline' }}
-              >
-                Watch Video
-              </a>
-            </p>
+            <p><strong>Pitch Video:</strong></p>
+            <iframe
+              width="100%"
+              height="315"
+              src={application.videoLink}
+              title="Pitch Video"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              style={{ borderRadius: '8px' }}
+            ></iframe>
           </div>
 
           <button
