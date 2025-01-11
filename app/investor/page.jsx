@@ -102,7 +102,7 @@ const SmeListingPage = () => {
                             loanApplications.map((application) => (
                                 <div key={application.id} className="application-card">
                                     <h3 className="company-name">{application.companyName}</h3>
-                                    <p className="loan-details">Amount: {application.loanAmount}</p>
+                                    <p className="loan-details">Amount: {application.loanAmount} APT (₹{application.loanAmountInINR || (application.loanAmount * 777.36)}) </p>
                                     <p className="loan-details">Status: {application.fundingStatus}</p>
                                     <p className="loan-details">Funding Received: {application.fundingReceived}</p>
                                     <div className="button-group">
@@ -135,7 +135,7 @@ const SmeListingPage = () => {
                             finalizedBids.map((application) => (
                                 <div key={application.id} className="application-card">
                                     <h3 className="company-name">{application.companyName}</h3>
-                                    <p className="loan-details">Amount: {application.loanAmount} APT : ₹{application.loanAmountInINR || (application.loanAmount * 777.36)}</p>
+                                    <p className="loan-details">Amount: {application.loanAmount} APT (₹{application.loanAmountInINR || (application.loanAmount * 777.36)})</p>
                                     <p className="loan-details">Status: {application.status}</p>
                                     <p className="loan-details">Funding Received: {application.fundingReceived}</p>
                                     <div className="button-group">
