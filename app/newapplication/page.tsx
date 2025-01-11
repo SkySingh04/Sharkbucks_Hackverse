@@ -79,6 +79,7 @@ const LoanApplicationForm = () => {
       const applicationData = {
         userId: loggedInUser,
         id : applicationId,
+        applicationId,
         ...formData,
         fundingReceived: 0,
         fundingStatus: "pending",
