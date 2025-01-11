@@ -75,17 +75,19 @@ const SmeListingPage = () => {
 
     return (
         <div className="page">
-            <h1 className="section-title mt-[100px] mb-0">Investor Dashboard</h1>
-            <button 
-                className="pref flex justify-end mx-auto border border-amber-500 p-4" 
-                onClick={() => router.push("/investorport")}
-            >
-                View Personalised Preferences
-            </button>
+            <div className="flex justify-between items-center mt-[100px] mb-0 w-full">
+                <h1 className="section-title text-center text-4xl">Investor Dashboard</h1>
+                <button 
+                    className="pref border border-amber-500 p-4"
+                    onClick={() => router.push("/investorport")}
+                >
+                    View Personalised Preferences
+                </button>
+            </div>
             
             <div className="investor-dashboard">
                 {/* Active Loan Applications Section */}
-                <div className="loan-applications">
+                <div className="loan-applications ">
                     <h2 className="section-subtitle">SMEs looking for funding</h2>
                     <div className="applications-list">
                         {loanApplications.length === 0 ? (
@@ -151,9 +153,11 @@ const SmeListingPage = () => {
                 </div>
 
                 {/* Chatbot Section */}
+                <div>
+                <h1 className="section-subtitle">Ask our chatbot about the latest trends to invest on!</h1>
                 <div className="chatbot">
-                    <h1>Want to know about the latest trends to invest on? Ask our chatbot!</h1>
                     <Chatbot />
+                </div>
                 </div>
             </div>
         </div>
