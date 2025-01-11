@@ -5,6 +5,7 @@ import { doc , setDoc} from 'firebase/firestore'; // Import Firestore functions
 import { auth, db } from '../firebase';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import toast from "react-hot-toast";
+
 function SignUpForm({userType} : any) {
   console.log("userType in signup form", userType);
   const router = useRouter();
@@ -24,6 +25,7 @@ function SignUpForm({userType} : any) {
         email: user.email,
         displayName: data.get('firstName') + ' ' + data.get('lastName'),
         Organization: data.get('Organization'),
+        accountAddress: data.get('accountAddress'), // Add account number to user data
         userType: userType,
       }
       // Create a user document in Firestore
@@ -88,6 +90,12 @@ function SignUpForm({userType} : any) {
           type="text"
           name="Organization"
           placeholder="Organization"
+        />
+        <input
+        className="bg-customBeige text-black"
+          type="text"
+          name="accountAddress"
+          placeholder="APTOS Account Address"
         />
         <input
         className="bg-customBeige text-black"

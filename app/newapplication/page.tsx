@@ -353,7 +353,7 @@ const LoanApplicationForm = () => {
             value={formData.loanAmount}
             onChange={handleChange}
             className="w-full border rounded px-4 py-2"
-            placeholder="Goal (ETH)"
+            placeholder="Goal (APTs)"
           />
           </label>
         </div>
