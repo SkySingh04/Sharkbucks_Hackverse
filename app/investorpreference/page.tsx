@@ -34,6 +34,18 @@ function normalize_amount(amount: number): number {
     return (amount - min_amount) / (max_amount - min_amount);
 }
 
+function calculateLoanScore(loan: Loan, weights: Weights): number {
+    const normalizedRate = normalize_interest_rate(loan.interest_rate);
+    const normalizedTenure = normalize_tenure(loan.tenure);
+    const normalizedAmount = normalize_amount(loan.amount);
+
+    return (
+        normalizedRate * weights.interest_rate +
+        normalizedTenure * weights.tenure +
+        normalizedAmount * weights.amount
+    ) / (weights.interest_rate + weights.tenure + weights.amount);
+}
+
 const ViewApplicationPage = () => {
     const search = useSearchParams();
     const preferenceId = search.get('id');
@@ -43,6 +55,47 @@ const ViewApplicationPage = () => {
     const [application, setApplication] = useState<any>(null);
     const [allApplications, setAllApplications] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [loanScores, setLoanScores] = useState<number[]>([]);
+    
+    useEffect(() => {
+        if (application && allApplications) {
+            const weights: Weights = {
+                interest_rate: 0.4,
+                tenure: 0.3,
+                amount: 0.3
+            };
+             // Calculate tag-based scores
+             const tagScores = allApplications.map(app => {
+                if (!Array.isArray(app.tags)) return 0;
+                return app.tags.reduce((score: number, tag: string) => {
+                    return score + (application.preferences.includes(tag) ? 1 : 0);
+                }, 0) / application.preferences.length;
+            });
+
+            // Calculate loan-based scores
+            const loans = allApplications.map(app => ({
+                interest_rate: app.interestRate || 12,
+                tenure: app.loanTenure || 36,
+                amount: app.loanAmount || 100000
+            }));
+
+            const financialScores = loans.map(loan => calculateLoanScore(loan, weights));
+
+            // Combine scores (70% tags, 30% loan parameters)
+            const combinedScores = tagScores.map((tagScore, index) => 
+                tagScore * 0.7 + financialScores[index] * 0.3
+            );
+
+            const sortedIndices = combinedScores
+                .map((score, index) => ({ score, index }))
+                .sort((a, b) => b.score - a.score)
+                .map(item => item.index);
+
+            setScores(sortedIndices.map(index => combinedScores[index]));
+            setIds(sortedIndices.map(index => allApplications[index].id));
+            setLoanScores(sortedIndices.map(index => financialScores[index]));
+        }
+    }, [application, allApplications]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -131,9 +184,10 @@ const ViewApplicationPage = () => {
                                         <span className="bg-blue-900 text-white px-3 py-1 rounded-full text-sm">
                                             Rank #{index + 1}
                                         </span>
-                                        <span className="text-blue-200">
-                                            Match Score: {((scores[index] / application.preferences.length) * 100).toFixed(0)}%
-                                        </span>
+                                        <div className="flex justify-between text-sm text-blue-200 mb-2">
+                                    <span>Tag Match: {((scores[index] * 100).toFixed(0))}%</span>
+                                    <span>Loan Score: {((loanScores[index] * 100).toFixed(0))}%</span>
+                                </div>
                                     </div>
                                     
                                     <h2 className="text-2xl font-bold text-white mb-2">
@@ -142,18 +196,18 @@ const ViewApplicationPage = () => {
                                     
                                     <div className="mb-4">
                                         <p className="text-blue-200">
-                                            Requested Amount: ${app.loanAmount?.toLocaleString() || 'N/A'}
+                                            Requested Amount: {app.loanAmount} APT (₹{ (app.loanAmount * 777.36)})
                                         </p>
                                     </div>
 
                                     {app.tags && (
                                         <div className="flex flex-wrap gap-2 mb-4">
-                                            {app.tags.map((tag: string, i: number) => (
+                                            {app.tags.map((tagObj: { tag: string, isSpecial: boolean }, i: number) => (
                                                 <span
                                                     key={i}
                                                     className="bg-blue-900/50 text-blue-200 px-2 py-1 rounded-full text-sm"
                                                 >
-                                                    {tag}
+                                                    {tagObj.tag}
                                                 </span>
                                             ))}
                                         </div>
