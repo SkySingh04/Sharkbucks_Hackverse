@@ -1,0 +1,90 @@
+.chat-container{
+    background-color: #0f1a47;
+    font-family: sans-serif;
+    height: screen;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+
+
+.chat-container .enter-message{
+    font-family: sans-serif;
+    display: flex;
+    width: 100%;
+    color: #0f1a47;
+}
+.chat-container .enter-message button{
+    font-family: sans-serif;
+    background-color: #83b3cd;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.chat-container .enter-message input{
+    font-family: sans-serif;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    color: #0f1a47;
+    transition: all 0.1s ease-in-out;
+    &:focus{
+        outline: none;
+        background-color: #fafafa;
+        color: #0f1a47;
+        font-weight: bold;
+    }
+}
+.chat-container .res{
+    display: flex;
+}
+
+.chat-container .que{
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.chat-container .res img{
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.chat-container .que img{
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+.chat-container .msg{
+    font-family: sans-serif;
+    background-color: #6096B4;
+    color: black;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    width: 200px;
+}
+
+.chat-container .que .uque{
+    font-family: sans-serif;
+    background-color: #c0c0c0;
+    color: #0f1a47;
+    font-weight: bolder;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    width: 200px;
+}
