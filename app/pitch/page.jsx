@@ -142,18 +142,21 @@ const App = () => {
     try {
       // Mark green tags as true (special)
       const tagsWithSpecialFlag = selectedPreferences.map(tag => {
-        if (highlightTags.includes(tag)) {
-          return { tag, isSpecial: true }; // Mark as special
-        }
-        return { tag, isSpecial: false }; // Regular tag
+      if (highlightTags.includes(tag)) {
+        return { tag, isSpecial: true }; // Mark as special
+      }
+      return { tag, isSpecial: false }; // Regular tag
       });
 
+      const hasSpecialTag = tagsWithSpecialFlag.some(tag => tag.isSpecial);
+
       const applicationRef = doc(db, "applications", applicationId.toString());
-      console.log (applicationId)
+      console.log(applicationId);
       await setDoc(applicationRef, {
-        pitch,
-        tags: tagsWithSpecialFlag, // Store tags with isSpecial flag
-        videoLink: downloadLink,
+      pitch,
+      tags: tagsWithSpecialFlag, // Store tags with isSpecial flag
+      videoLink: downloadLink,
+      ...(hasSpecialTag && { isSpecial: true }), // Add isSpecial field if there's at least one special tag
       }, { merge: true });
 
       toast.success('Application submitted successfully');

@@ -172,12 +172,30 @@ const ViewApplicationPage = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                                {/* <div 
+                                    key={application.id} 
+                                    className={`application-card ${application.isSpecial ? 'special-border' : ''} ${application.fundingStatus === 'finalized' ? 'bg-green-800' : ''}`}
+                                    title={application.isSpecial ? 'No transaction fees for this application!' : ''}
+                                >
+                                    <div className="relative group">
+                                        <h3 className='company-name'>
+                                            {application.companyName}
+                                            {application.isSpecial && (
+                                                <span className="ml-2">🌱</span>
+                                            )}
+                                        </h3>
+                                        {application.isSpecial && (
+                                            <div className="absolute invisible group-hover:visible bg-green-100 text-green-800 p-2 rounded-md shadow-lg z-10 w-48 text-sm">
+                                                No transaction fees for this application!
+                                            </div>
+                                        )} */}
                     {allApplications
                         ?.filter((app: any) => ids.includes(app.id))
                         .map((app: any, index: number) => (
                             <div
                                 key={app.id}
-                                className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105"
+                                className={`bg-gray-800 ${application.isSpecial ? 'special-border' : ''} rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105`}
                             >
                                 <div className="p-6">
                                     <div className="flex items-center justify-between mb-4">
@@ -193,6 +211,14 @@ const ViewApplicationPage = () => {
                                     <h2 className="text-2xl font-bold text-white mb-2">
                                         {app.companyName || 'Company Name'}
                                     </h2>
+                                    {application.isSpecial && (
+                                                <span className="ml-2">🌱</span>
+                                            )}
+                                            {application.isSpecial && (
+                                            <div className="absolute invisible group-hover:visible bg-green-100 text-green-800 p-2 rounded-md shadow-lg z-10 w-48 text-sm">
+                                                No transaction fees for this application!
+                                            </div>
+                                        )}
                                     
                                     <div className="mb-4">
                                         <p className="text-blue-200">

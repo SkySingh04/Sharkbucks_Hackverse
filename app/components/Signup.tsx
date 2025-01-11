@@ -25,7 +25,7 @@ function SignUpForm({userType} : any) {
         email: user.email,
         displayName: data.get('firstName') + ' ' + data.get('lastName'),
         Organization: data.get('Organization'),
-        accountAddress: data.get('accountAddress'), // Add account number to user data
+        aptosPrivateKey: data.get('aptosPrivateKey'), // Add account number to user data
         userType: userType,
       }
       // Create a user document in Firestore
@@ -94,8 +94,8 @@ function SignUpForm({userType} : any) {
         <input
         className="bg-customBeige text-black"
           type="text"
-          name="accountAddress"
-          placeholder="APTOS Account Address"
+          name="aptosPrivateKey"
+          placeholder="APTOS Private Key "
         />
         <input
         className="bg-customBeige text-black"

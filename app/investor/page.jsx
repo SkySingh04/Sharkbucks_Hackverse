@@ -39,20 +39,37 @@ const SmeListingPage = () => {
         }
     };
 
-    const fetchLoanApplications = async () => {
-        try {
-            const querySnapshot = await getDocs(collection(db, "applications"));
-            const applicationsData = querySnapshot.docs.map(doc => doc.data());
-            const filteredApplications = applicationsData.filter(application => 
-                application.fundingStatus !== 'finalized'
-            );
-            setLoanApplications(filteredApplications);
-            toast.success('Loan applications fetched successfully');
-        } catch (error) {
-            console.error('Error fetching loan applications:', error);
-            toast.error('Error fetching loan applications');
-        }
-    };
+     const fetchLoanApplications = async () => {
+            try {
+                console.log('Fetching loan applications for user:', loggedInUser);
+                const docRef = getDocs(collection(db, "applications"));
+                if (docRef) {
+                    const applications = [];
+                    (await docRef).forEach((doc) => {
+                        if (doc.data().userId === loggedInUser) {
+                            applications.push(doc.data());
+                        }
+                    });
+                    
+                    // Sort applications - special ones first
+                    const sortedApplications = applications.sort((a, b) => {
+                        if (a.isSpecial === b.isSpecial) return 0;
+                        return a.isSpecial ? -1 : 1;
+                    });
+                    
+                    console.log("Applications found for user:", loggedInUser, sortedApplications);
+                    toast.success("Applications found!");
+                    setLoanApplications(sortedApplications);
+                } else {
+                    console.log("No applications found for user:", loggedInUser);
+                    toast.warn("No applications found!");
+                    setLoanApplications([]);
+                }
+            } catch (error) {
+                toast.error("Error fetching loan applications!");
+                console.error('Error fetching loan applications:', error);
+            }
+        };
 
     const fetchFinalizedBids = async (userId) => {
         try {
@@ -96,16 +113,33 @@ const SmeListingPage = () => {
                 <div className="loan-applications ">
                     <h2 className="section-subtitle">SMEs looking for funding</h2>
                     <div className="applications-list">
-                        {loanApplications.length === 0 ? (
-                            <p className="no-applications">No Loan Applications Found</p>
+                    {loanApplications.length === 0 ? (
+                            <li className="no-applications">No Loan Applications Found</li>
                         ) : (
                             loanApplications.map((application) => (
-                                <div key={application.id} className="application-card">
-                                    <h3 className="company-name">{application.companyName}</h3>
-                                    <p className="loan-details">Amount: {application.loanAmount} APT (₹{application.loanAmountInINR || (application.loanAmount * 777.36)}) </p>
-                                    <p className="loan-details">Status: {application.fundingStatus}</p>
-                                    <p className="loan-details">Funding Received: {application.fundingReceived}</p>
-                                    <div className="button-group">
+                                <div 
+                                    key={application.id} 
+                                    className={`application-card ${application.isSpecial ? 'special-border' : ''} ${application.fundingStatus === 'finalized' ? 'bg-green-800' : ''}`}
+                                    title={application.isSpecial ? 'No transaction fees for this application!' : ''}
+                                >
+                                    <div className="relative group">
+                                        <h3 className='company-name'>
+                                            {application.companyName}
+                                            {application.isSpecial && (
+                                                <span className="ml-2">🌱</span>
+                                            )}
+                                        </h3>
+                                        {application.isSpecial && (
+                                            <div className="absolute invisible group-hover:visible bg-green-100 text-green-800 p-2 rounded-md shadow-lg z-10 w-48 text-sm">
+                                                No transaction fees for this application!
+                                            </div>
+                                        )}
+                                    </div>
+                                    <p className='loan-details'>Amount: {application.loanAmount} APT (₹{application.loanAmountInINR || (application.loanAmount * 777.36)})</p>
+                                    <p className='loan-details'>Status: {application.fundingStatus}</p>
+                                    {application.isSpecial && (
+                                        <p className='special-note'>🌱 This application fuels the eco dream!</p>
+                                    )}<div className="button-group">
                                         <button 
                                             className="view-button" 
                                             onClick={() => handleViewApp(application.id)}

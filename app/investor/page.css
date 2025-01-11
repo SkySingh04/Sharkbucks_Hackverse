@@ -80,6 +80,46 @@
   margin-bottom: 15px;
 }
 
+.group {
+  position: relative;
+}
+.special-border {
+  border: 2px solid transparent;
+  background: linear-gradient(#1a1a1a, #1a1a1a) padding-box,
+                          linear-gradient(45deg, #4CAF50, #8BC34A) border-box;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: #ffffff;
+}
+
+.special-border:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(76, 175, 80, 0.2);
+}
+
+.special-note {
+  color: #4CAF50;
+  font-style: italic;
+  margin-top: 8px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+
+.group-hover\:visible {
+  transition: visibility 0s, opacity 0.2s;
+  opacity: 1;
+}
+
+.invisible {
+  opacity: 0;
+  transition: visibility 0s 0.2s, opacity 0.2s;
+}
+
 /* Finalized Bids Box */
 .finalized-bids-box {
   background-color: #1e1e1e;

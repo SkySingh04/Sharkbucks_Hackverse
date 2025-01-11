@@ -8,7 +8,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './page.css'; 
 import Chatbot from '../components/Chatbot';
-import { BsAlignCenter } from 'react-icons/bs';
 
 const DashboardPage = () => {
     const router = useRouter();
@@ -24,14 +23,12 @@ const DashboardPage = () => {
     }, []);
 
     const handleViewApp = ({ applicationId }) => {
-        // Push to view application page with the application id as a query parameter
         router.push(`/viewapplication?id=${applicationId}`);
     }
 
     const [loanApplications, setLoanApplications] = useState([]);
     const [loggedInUser, setLoggedInUser] = useState('');
 
-    // Fetch existing loan applications
     useEffect(() => {
         fetchLoanApplications();
     }, [loggedInUser]);
@@ -43,22 +40,25 @@ const DashboardPage = () => {
             if (docRef) {
                 const applications = [];
                 (await docRef).forEach((doc) => {
-                    console.log(doc.data().userId);
                     if (doc.data().userId === loggedInUser) {
                         applications.push(doc.data());
                     }
                 });
-                console.log("Applications found for user:", loggedInUser, applications);
+                
+                // Sort applications - special ones first
+                const sortedApplications = applications.sort((a, b) => {
+                    if (a.isSpecial === b.isSpecial) return 0;
+                    return a.isSpecial ? -1 : 1;
+                });
+                
+                console.log("Applications found for user:", loggedInUser, sortedApplications);
                 toast.success("Applications found!");
-                setLoanApplications(applications);
-            }
-            // setLoanApplications(docSnap.data());
-            else {
+                setLoanApplications(sortedApplications);
+            } else {
                 console.log("No applications found for user:", loggedInUser);
                 toast.warn("No applications found!");
                 setLoanApplications([]);
             }
-
         } catch (error) {
             toast.error("Error fetching loan applications!");
             console.error('Error fetching loan applications:', error);
@@ -69,9 +69,7 @@ const DashboardPage = () => {
         router.push('/newapplication');
     };
 
-    
     const handleClick = ({ applicationId }) => {
-        // Push to view application page with the application id as a query parameter
         router.push(`/bidslist?id=${applicationId}`);
     };
 
@@ -93,10 +91,29 @@ const DashboardPage = () => {
                             <li className="no-applications">No Loan Applications Found</li>
                         ) : (
                             loanApplications.map((application) => (
-                                <div key={application.id} className={`application-card ${application.fundingStatus === 'finalized' ? 'bg-green-800' : ''}`}>
-                                    <h3 className='company-name'>{application.companyName}</h3>
+                                <div 
+                                    key={application.id} 
+                                    className={`application-card ${application.isSpecial ? 'special-border' : ''} ${application.fundingStatus === 'finalized' ? 'bg-green-800' : ''}`}
+                                    title={application.isSpecial ? 'No transaction fees for this application!' : ''}
+                                >
+                                    <div className="relative group">
+                                        <h3 className='company-name'>
+                                            {application.companyName}
+                                            {application.isSpecial && (
+                                                <span className="ml-2">🌱</span>
+                                            )}
+                                        </h3>
+                                        {application.isSpecial && (
+                                            <div className="absolute invisible group-hover:visible bg-green-100 text-green-800 p-2 rounded-md shadow-lg z-10 w-48 text-sm">
+                                                No transaction fees for this application!
+                                            </div>
+                                        )}
+                                    </div>
                                     <p className='loan-details'>Amount: {application.loanAmount} APT (₹{application.loanAmountInINR || (application.loanAmount * 777.36)})</p>
                                     <p className='loan-details'>Status: {application.fundingStatus}</p>
+                                    {application.isSpecial && (
+                                        <p className='special-note'>🌱 This application fuels the eco dream!</p>
+                                    )}
                                     <div className='buttons'>
                                         <button className='view-button' onClick={() => { handleViewApp({ applicationId: application.id }) }}>
                                             View Application
@@ -123,4 +140,3 @@ const DashboardPage = () => {
 };
 
 export default DashboardPage;
-
