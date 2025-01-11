@@ -44,6 +44,7 @@ const SmeListingPage = () => {
     const [loanApplications, setLoanApplications] = useState([]);
     const [finalizedBids, setFinalizedBids] = useState([]);
     const [userId, setUserId] = useState(null);
+    const [loggedInUser, setLoggedInUser] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
     const [transactionHash, setTransactionHash] = useState(null); // State for transaction hash
     const router = useRouter();
@@ -52,8 +53,10 @@ const SmeListingPage = () => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 setUserId(user.uid);
+                // console.log('User is signed in with UID:', user.uid);
+                // setLoggedInUser(user.uid);
                 fetchFinalizedBids(user.uid);
-                fetchLoanApplications();
+                fetchLoanApplications(user.uid);
             } else {
                 router.push("/login");
             }
@@ -130,7 +133,7 @@ const SmeListingPage = () => {
         }
     };
 
-     const fetchLoanApplications = async () => {
+     const fetchLoanApplications = async (loggedInUser) => {
             try {
                 console.log('Fetching loan applications for user:', loggedInUser);
                 const docRef = getDocs(collection(db, "applications"));
