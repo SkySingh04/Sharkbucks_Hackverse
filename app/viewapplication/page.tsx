@@ -19,6 +19,7 @@ interface Application {
   fundingStatus: string;
   fundingReceived: string;
   loanAmount: number;
+  loanAmountInINr : number;
   pitch: string;
   videoLink: string;
 }
@@ -38,8 +39,10 @@ const ViewApplicationPage = () => {
         const appSnap = await getDoc(appRef);
 
         if (appSnap.exists()) {
-          setApplication(appSnap.data() as Application);
-          toast.success("Application found!");
+          const appData = appSnap.data() as Application;
+          appData.loanAmountInINr = appData.loanAmount * 777.36;          ;
+          setApplication(appData);
+          toast.success('Application found!');
         } else {
           toast.error("Application not found!");
         }
@@ -159,6 +162,7 @@ const ViewApplicationPage = () => {
             <p><strong>Funding Status:</strong> {application.fundingStatus}</p>
             <p><strong>Funding Received:</strong> {application.fundingReceived}</p>
             <p><strong>Loan Amount:</strong> {application.loanAmount}</p>
+            <p><strong>Loan Amount in INR:</strong> ₹{application.loanAmountInINr}</p>
           </div>
 
           <div
@@ -185,18 +189,17 @@ const ViewApplicationPage = () => {
               border: "1px solid #333",
             }}
           >
-            <p>
-              <strong>Pitch Video Link:</strong>{" "}
-              <a
-                href={application.videoLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="video-link"
-                style={{ color: "#64b5f6", textDecoration: "underline" }}
-              >
-                Watch Video
-              </a>
-            </p>
+            <p><strong>Pitch Video:</strong></p>
+            <iframe
+              width="100%"
+              height="315"
+              src={application.videoLink}
+              title="Pitch Video"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              style={{ borderRadius: '8px' }}
+            ></iframe>
           </div>
 
           <button

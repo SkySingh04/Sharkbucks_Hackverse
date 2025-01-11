@@ -1,22 +1,38 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { db } from '../firebase';
-import { collection, query, where, getDocs, doc, getDoc, updateDoc } from 'firebase/firestore';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
+import { useRouter } from 'next/navigation';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 const MyComponent = () => {
     const [filteredBids, setFilteredBids] = useState<any[]>([]);
     const [names, setNames] = useState<{ [key: string]: string }>({});
     const [showModal, setShowModal] = useState(false);
     const [selectedBid, setSelectedBid] = useState<any>(null);
-    const search = useSearchParams();
+    const [applicationDetails, setApplicationDetails] = useState<any>(null);
+    const [uid, setUid] = useState<string | null>(null);
     const router = useRouter();
-    const id = search.get("id");
+
+    useEffect(() => {
+        const auth = getAuth();
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setUid(user.uid);
+            } else {
+                router.push('/login'); // Redirect to login if not authenticated
+            }
+        });
+
+        return () => unsubscribe();
+    }, [router]);
 
     useEffect(() => {
         const fetchFilteredBids = async () => {
+            if (!uid) return;
+
             try {
-                const q = query(collection(db, 'bids'), where('applicationId', '==', id));
+                const q = query(collection(db, 'bids'), where('userId', '==', uid));
                 const querySnapshot = await getDocs(q);
 
                 const filteredBidsData: any[] = [];
@@ -35,53 +51,30 @@ const MyComponent = () => {
             }
         };
         fetchFilteredBids();
-    }, [id]);
+    }, [uid]);
 
-    const openModal = (bid: any) => {
+    const openModal = async (bid: any) => {
         setSelectedBid(bid);
+        try {
+            const applicationRef = doc(db, 'applications', bid.applicationId);
+            const applicationSnap = await getDoc(applicationRef);
+            if (applicationSnap.exists()) {
+                setApplicationDetails(applicationSnap.data());
+            }
+        } catch (error) {
+            console.error('Error fetching application details:', error);
+        }
         setShowModal(true);
     };
 
     const closeModal = () => {
         setShowModal(false);
-    };
-
-    const handleFinalizeBid = async (bid: any) => {
-        try {
-            // Finalize bids
-            const querySnapshot = await getDocs(collection(db, 'bids'));
-            querySnapshot.forEach(async (document) => {
-                if (document.data().applicationId === bid.applicationId) {
-                    await updateDoc(doc(db, 'bids', document.id), { status: 'finalized' });
-                }
-            });
-
-            // Update application
-            const applicationRef = doc(db, 'applications', bid.applicationId);
-            await updateDoc(applicationRef, { fundingStatus: 'finalized' });
-
-            // Update user document with finalizedBid
-            const userRef = doc(db, 'users', bid.userId.toString());
-            const userSnap = await getDoc(userRef);
-            if (userSnap.exists()) {
-                await updateDoc(userRef, {
-                    finalizedBid: {
-                        applicationId: bid.applicationId,
-                        finalized: true,
-                    },
-                });
-            }
-
-            closeModal();
-            router.push('/');
-        } catch (error) {
-            console.error('Error finalizing bid:', error);
-        }
+        setApplicationDetails(null);
     };
 
     return (
         <div className='h-screen'>
-            <h2 className="text-xl font-bold mb-4 mt-[100px]">Bids Received</h2>
+            <h2 className="text-xl font-bold mb-4 mt-[100px]">My Bids</h2>
             {filteredBids.length === 0 ? (
                 <p className='text-center text-4xl'>No bids yet :/</p>
             ) : (
@@ -95,25 +88,22 @@ const MyComponent = () => {
                                 onClick={() => openModal(bid)}
                                 className="mt-2 px-4 py-2 rounded-md bg-blue-500 text-white"
                             >
-                                Finalize Bid
+                                View Application
                             </button>
                         </div>
                     ))}
                 </div>
             )}
-            {showModal && (
+            {showModal && applicationDetails && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="bg-black p-8 rounded-md">
-                        <p>Are you sure you want to finalize this bid?</p>
+                        <h3 className="text-xl font-bold mb-4">Application Details</h3>
+                        <p>Application ID: {selectedBid.applicationId}</p>
+                        <p>Funding Status: {applicationDetails.fundingStatus}</p>
+                        <p>Other Details: {applicationDetails.otherDetails}</p> {/* Add other relevant details */}
                         <div className="mt-4 flex justify-between">
-                            <button
-                                onClick={() => handleFinalizeBid(selectedBid)}
-                                className="px-4 py-2 bg-blue-500 text-white rounded-md"
-                            >
-                                Yes
-                            </button>
                             <button onClick={closeModal} className="px-4 py-2 bg-gray-500 text-white rounded-md">
-                                No
+                                Close
                             </button>
                         </div>
                     </div>

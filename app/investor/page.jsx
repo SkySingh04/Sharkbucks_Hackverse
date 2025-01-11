@@ -76,6 +76,12 @@ const SmeListingPage = () => {
     return (
         <div className="page">
             <div className="flex justify-between items-center mt-[100px] mb-0 w-full">
+                <button 
+                    className="pref border border-amber-500 p-4"
+                    onClick={() => router.push("/mybids")}
+                >
+                    View My Bids
+                </button>
                 <h1 className="section-title text-center text-4xl">Investor Dashboard</h1>
                 <button 
                     className="pref border border-amber-500 p-4"
@@ -96,7 +102,7 @@ const SmeListingPage = () => {
                             loanApplications.map((application) => (
                                 <div key={application.id} className="application-card">
                                     <h3 className="company-name">{application.companyName}</h3>
-                                    <p className="loan-details">Amount: {application.loanAmount}</p>
+                                    <p className="loan-details">Amount: {application.loanAmount} APT (₹{application.loanAmountInINR || (application.loanAmount * 777.36)}) </p>
                                     <p className="loan-details">Status: {application.fundingStatus}</p>
                                     <p className="loan-details">Funding Received: {application.fundingReceived}</p>
                                     <div className="button-group">
@@ -129,7 +135,7 @@ const SmeListingPage = () => {
                             finalizedBids.map((application) => (
                                 <div key={application.id} className="application-card">
                                     <h3 className="company-name">{application.companyName}</h3>
-                                    <p className="loan-details">Amount: {application.loanAmount}</p>
+                                    <p className="loan-details">Amount: {application.loanAmount} APT (₹{application.loanAmountInINR || (application.loanAmount * 777.36)})</p>
                                     <p className="loan-details">Status: {application.status}</p>
                                     <p className="loan-details">Funding Received: {application.fundingReceived}</p>
                                     <div className="button-group">
@@ -141,7 +147,7 @@ const SmeListingPage = () => {
                                         </button>
                                         <button 
                                             className="bid-button" 
-                                            onClick={() => handleFund(application.applicationId, application.loanAmount)}
+                                            onClick={() => handleFund(application.applicationId, application.loanAmount )} 
                                         >
                                             Finalize Payment
                                         </button>
