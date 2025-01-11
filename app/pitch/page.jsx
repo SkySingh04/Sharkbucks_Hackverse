@@ -8,6 +8,15 @@ import { ToastContainer, toast } from 'react-toastify';
 import { Upload, X } from 'lucide-react';
 import 'react-toastify/dist/ReactToastify.css';
 
+const highlightTags = [
+  'Green Buildings',
+  'Sustainable Agriculture',
+  'Sustainable Forestry',
+  'Green Transportation',
+  'Waste Management',
+  'Recycling'
+];
+
 const FileUploadComponent = ({ onUploadSuccess }) => {
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -67,7 +76,6 @@ const FileUploadComponent = ({ onUploadSuccess }) => {
             <button
               onClick={() => setFile(null)}
               className="text-red-400 hover:text-red-300"
-              
             >
               <X className="w-4 h-4" />
             </button>
@@ -111,7 +119,9 @@ const App = () => {
     'Technology', 'Manufacturing', 'Healthcare', 'Agribusiness',
     'Renewable-Energy', 'Education', 'E-commerce', 'Infrastructure',
     'Financial-Services', 'Consumer-Goods', 'Artisanal-and-Handicrafts',
-    'Sustainable-and-Social-Enterprises'
+    'Sustainable-and-Social-Enterprises', 'Green Buildings',
+    'Sustainable Agriculture', 'Sustainable Forestry',
+    'Green Transportation', 'Waste Management', 'Recycling'
   ]);
 
   const handleSubmit = async (e) => {
@@ -130,14 +140,25 @@ const App = () => {
     }
 
     try {
+      // Mark green tags as true (special)
+      const tagsWithSpecialFlag = selectedPreferences.map(tag => {
+        if (highlightTags.includes(tag)) {
+          return { tag, isSpecial: true }; // Mark as special
+        }
+        return { tag, isSpecial: false }; // Regular tag
+      });
+
       const applicationRef = doc(db, "applications", applicationId.toString());
+      console.log (applicationId)
       await setDoc(applicationRef, {
         pitch,
-        tags: selectedPreferences,
+        tags: tagsWithSpecialFlag, // Store tags with isSpecial flag
         videoLink: downloadLink,
       }, { merge: true });
+
       toast.success('Application submitted successfully');
-      router.push('/viewapplication/?id=' + applicationId.toString());
+      // console.log (applicationId.toString())
+      // router.push('/viewapplication/?id=' + applicationId.toString());
     } catch (e) {
       console.error("Error adding document: ", e);
       toast.error('Error submitting application');
@@ -179,7 +200,11 @@ const App = () => {
                       setSelectedPreferences(prev => [...prev, preference]);
                       setAvailablePreferences(prev => prev.filter(p => p !== preference));
                     }}
-                    className="px-3 py-1  hover: rounded-full text-sm flex items-center gap-1 text-gray-200"
+                    className={`px-3 py-1 rounded-full text-sm flex items-center gap-1 ${
+                      highlightTags.includes(preference)
+                        ? 'text-green-200 bg-green-600 shadow-lg'
+                        : 'text-gray-200 hover:text-white'
+                    }`}
                   >
                     {preference}
                     <span className="text-purple-400">+</span>
@@ -215,7 +240,11 @@ const App = () => {
                   {selectedPreferences.map((pref, index) => (
                     <div
                       key={index}
-                      className="px-3 py-1 /50 rounded-full text-sm flex items-center gap-1 text-purple-100"
+                      className={`px-3 py-1 rounded-full text-sm flex items-center gap-1 ${
+                        highlightTags.includes(pref)
+                          ? 'text-green-200 bg-green-600 shadow-lg'
+                          : 'text-purple-100'
+                      }`}
                     >
                       {pref}
                       <button
