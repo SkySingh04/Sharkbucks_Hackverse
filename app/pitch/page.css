@@ -1,0 +1,105 @@
+body {
+    
+    color: white;
+    font-family:'Inter', Arial, sans-serif;
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  
+  .App {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin-top: 130px;
+    padding: 20px;
+    border-radius: 10px;
+    
+    width: 80%;
+    max-width: 600px;
+  }
+  
+  textarea {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 20px;
+    padding: 10px;
+    color:aliceblue;
+  }
+  .preferences {
+    background-color:#05101b;
+    padding: 20px;
+    border-radius: 5px;
+  }
+  
+  .preferences h2 {
+    margin-bottom: 10px;
+    color: white;
+    font-family:'Inter', sans-serif;
+  }
+  
+  .preferences p {
+    color: white;
+    font-family:'Inter', sans-serif;
+  }
+  
+  .preferences button,
+  .selected-preferences button {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #062c54;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: margin 0.2s ease-in-out;
+    font-size: small; 
+    
+  }
+  .preferences button :hover{
+    border: 1px solid white;
+  }
+  
+  .selected-preferences {
+    background-color: #05101b;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+    color: white;
+    font-family:'Inter', sans-serif;
+    transition: margin 0.2s ease-in-out;
+    font-size: small; 
+    
+  }
+  
+  .selected-preferences p {
+    color: white;
+    
+    font-family:'Inter', sans-serif;
+  }
+  
+  .selected-preferences div {
+    
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  
+  .uploadButton button,
+  .submitButton button {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: margin 0.2s ease-in-out; 
+  }
+  
