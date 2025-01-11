@@ -95,7 +95,7 @@ const DashboardPage = () => {
                             loanApplications.map((application) => (
                                 <div key={application.id} className={`application-card ${application.fundingStatus === 'finalized' ? 'bg-green-800' : ''}`}>
                                     <h3 className='company-name'>{application.companyName}</h3>
-                                    <p className='loan-details'>Amount: {application.loanAmount}</p>
+                                    <p className='loan-details'>Amount: {application.loanAmount} APT : ₹{application.loanAmountInINR || (application.loanAmount * 777.36)}</p>
                                     <p className='loan-details'>Status: {application.fundingStatus}</p>
                                     <div className='buttons'>
                                         <button className='view-button' onClick={() => { handleViewApp({ applicationId: application.id }) }}>

@@ -19,6 +19,7 @@ interface Application {
   fundingStatus: string;
   fundingReceived: string;
   loanAmount: number;
+  loanAmountInINr : number;
   pitch: string;
   videoLink: string;
 }
@@ -38,7 +39,9 @@ const ViewApplicationPage = () => {
         const appSnap = await getDoc(appRef);
 
         if (appSnap.exists()) {
-          setApplication(appSnap.data() as Application);
+          const appData = appSnap.data() as Application;
+          appData.loanAmountInINr = appData.loanAmount * 777.36;          ;
+          setApplication(appData);
           toast.success('Application found!');
         } else {
           toast.error('Application not found!');
@@ -111,6 +114,7 @@ const ViewApplicationPage = () => {
             <p><strong>Funding Status:</strong> {application.fundingStatus}</p>
             <p><strong>Funding Received:</strong> {application.fundingReceived}</p>
             <p><strong>Loan Amount:</strong> {application.loanAmount}</p>
+            <p><strong>Loan Amount in INR:</strong> ₹{application.loanAmountInINr}</p>
           </div>
 
           <div

@@ -83,6 +83,7 @@ const LoanApplicationForm = () => {
         id : applicationId,
         applicationId,
         ...formData,
+        loanAmountInINR: parseInt(formData.loanAmount) * 777.36,
         fundingReceived: 0,
         fundingStatus: "pending",
       };
