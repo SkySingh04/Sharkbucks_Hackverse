@@ -158,37 +158,39 @@ export async function createStartup(startup_id: number) {
   }
 }
 
-const balance = async (name: string, accountAddress: AccountAddress, versionToWaitFor?: bigint): Promise<number> => {
-  const amount = await aptos.getAccountAPTAmount({
-    accountAddress,
-    minimumLedgerVersion: versionToWaitFor,
-  });
-  console.log(`${name}'s balance is: ${amount}`);
-  return amount;
-};
-
-
-
 export async function fundStartup(startupId: number, amt: number) {
   try {
     const investorStringKey = process.env.NEXT_PUBLIC_INVESTOR_PRIVATE_KEY || "";
     const investorPrivateKey = new Ed25519PrivateKey(investorStringKey);
-    console.log(investorPrivateKey);
+
 
     const investorAccount = Account.fromPrivateKey({
       privateKey: investorPrivateKey
     });
+    console.log("Investor pvt: ", investorAccount.privateKey);
 
     const startupAddress = await get_acc_no(startupId);
     console.log(startupAddress);
 
     const startupStringKey = process.env.NEXT_PUBLIC_STARTUP_PRIVATE_KEY || "";
 
-    const startupPrivateKey = new Ed25519PrivateKey(startupStringKey)
-    
+    const startupPrivateKey = new Ed25519PrivateKey(startupStringKey);
+
     const startupAccount = Account.fromPrivateKey({
       privateKey: startupPrivateKey
     });
+
+    console.log("Startup pvt: ", startupAccount.privateKey);
+
+    const aliceBalance = await balance("Investor", investorAccount.accountAddress);
+    const bobBalance = await balance("Startup", startupAccount.accountAddress);
+
+    console.log("Balances are : ", aliceBalance, bobBalance);
+
+
+    // await aptos.fundAccount({ accountAddress: investorAccount.accountAddress, amount: 100_000_000 });
+    // await aptos.fundAccount({ accountAddress: startupAccount.accountAddress, amount: 1_000 });
+
 
     const transaction = await aptos.transferCoinTransaction({
       sender: investorAccount.accountAddress,
@@ -209,7 +211,18 @@ export async function fundStartup(startupId: number, amt: number) {
 
     console.log("Transaction submitted:", response.hash);
     console.log("Transaction confirmed!: ", response.hash);
+
+    return response.hash;
   } catch (error) {
     console.error("Error funding startup:", error);
   }
 }
+
+const balance = async (name: string, accountAddress: AccountAddress, versionToWaitFor?: bigint): Promise<number> => {
+  const amount = await aptos.getAccountAPTAmount({
+    accountAddress,
+    minimumLedgerVersion: versionToWaitFor,
+  });
+  console.log(`${name}'s balance is: ${amount}`);
+  return amount;
+};
