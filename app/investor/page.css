@@ -1,0 +1,200 @@
+/* Base Page Styles */
+.page {
+  background-color: #05101b;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Dashboard Layout */
+.investor-dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 10px;
+  padding: 15px; /* Reduced padding to make it more compact */
+}
+
+/* Typography */
+.section-title,
+.section-subtitle,
+.company-name,
+.loan-details,
+.no-applications,
+.chatbot h1 {
+  color: #fff;
+  text-align: center;
+}
+
+/* Buttons */
+.pref-button,
+.view-button,
+.bid-button,
+.payment-button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #fff;
+}
+
+.pref-button,
+.view-button {
+  background-color: #007bff;
+}
+
+.bid-button {
+  background-color: #28a745;
+}
+
+.payment-button {
+  background-color: #0062ff;
+}
+
+/* Applications Section */
+.applications-list {
+  width: 100%;
+  max-width: 700px;
+  max-height: 300px; /* Reduced max height */
+  height: 300px; /* Set fixed height */
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  background-color: #1e1e1e;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.application-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+/* Finalized Bids Box */
+.finalized-bids-box {
+  background-color: #1e1e1e;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  width: 100%;
+  max-width: 300px;
+  max-height: 300px; /* Reduced max-height */
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.box-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* Chatbot Section */
+.chatbot {
+  width: 100%;
+  max-width: none;
+  max-height: 300px; /* Max height */
+  height: 300px; /* Fixed height */
+  background-color: #1e1e1e;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  align-self: flex-end;
+  overflow-y: auto; /* Keeps scrolling on the chatbot itself */
+}
+
+/* Content inside the chatbot */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: flex-end; /* Keeps the messages at the bottom */
+  overflow-y: auto; /* Ensure messages don't flow out of the box */
+  padding-right: 10px; /* Optional: prevents scrollbar from overlapping content */
+}
+
+/* Messages inside the chatbot */
+.content {
+  flex-grow: 1;
+  max-height: 100%; /* Prevents content from overflowing the container */
+  overflow-y: auto; /* Makes sure content scrolls if it's too long */
+}
+
+/* Enter message section */
+.enter-message {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.input {
+  width: 80%;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.send-btn {
+  padding: 10px 15px;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .applications-list {
+    max-height: 250px;
+    height: 250px; /* Adjusted height for smaller screens */
+  }
+
+  .finalized-bids-box {
+    max-width: 100%;
+    max-height: 250px; /* Adjusted for smaller screens */
+  }
+
+  .chatbot {
+    margin-top: 20px;
+    max-height: 250px; /* Adjusted for smaller screens */
+    height: 250px; /* Adjusted height for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .pref-button,
+  .view-button,
+  .bid-button,
+  .payment-button {
+    font-size: 14px;
+    padding: 6px 10px;
+  }
+
+  .box-title {
+    font-size: 16px;
+  }
+}
