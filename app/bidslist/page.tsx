@@ -1,13 +1,8 @@
-'use client'
+'use client';
 import { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { collection, query, where, getDocs, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Resend } from 'resend';
-
-
-
-const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
 
 const MyComponent = () => {
     const [filteredBids, setFilteredBids] = useState<any[]>([]);
@@ -52,42 +47,36 @@ const MyComponent = () => {
     };
 
     const handleFinalizeBid = async (bid: any) => {
-        // Finalize bids
-        const querySnapshot = await getDocs(collection(db, 'bids'));
-        querySnapshot.forEach(async (document) => {
-            if (document.data().applicationId === bid.applicationId) {
-                await updateDoc(doc(db, 'bids', document.id), { status: 'finalized' });
-            }
-        });
-
-        // Update application
-        const applicationRef = doc(db, 'applications', bid.applicationId);
-        await updateDoc(applicationRef, { fundingStatus: 'finalized' });
-
-        // Fetch application to get userId or any needed info
-        const appSnap = await getDoc(applicationRef);
-        if (appSnap.exists()) {
-            const userId = appSnap.data()?.userId;
-            if (userId) {
-                // Here you could fetch user email from 'users' collection
-                const userRef = doc(db, 'users', userId.toString());
-                const userDataSnap = await getDoc(userRef);
-                const userEmail = userDataSnap.exists() ? userDataSnap.data()?.email : null;
-
-                if (userEmail) {
-                    
-resend.emails.send({
-    from: 'akashsingh2210670@gmail.com',
-    to: "skysingh04@gmail.com",
-    subject: 'Hello World',
-    html: '<p>Congrats on sending your <strong>first email</strong>!</p>'
-  });
-  
+        try {
+            // Finalize bids
+            const querySnapshot = await getDocs(collection(db, 'bids'));
+            querySnapshot.forEach(async (document) => {
+                if (document.data().applicationId === bid.applicationId) {
+                    await updateDoc(doc(db, 'bids', document.id), { status: 'finalized' });
                 }
+            });
+
+            // Update application
+            const applicationRef = doc(db, 'applications', bid.applicationId);
+            await updateDoc(applicationRef, { fundingStatus: 'finalized' });
+
+            // Update user document with finalizedBid
+            const userRef = doc(db, 'users', bid.userId.toString());
+            const userSnap = await getDoc(userRef);
+            if (userSnap.exists()) {
+                await updateDoc(userRef, {
+                    finalizedBid: {
+                        applicationId: bid.applicationId,
+                        finalized: true,
+                    },
+                });
             }
+
+            closeModal();
+            router.push('/');
+        } catch (error) {
+            console.error('Error finalizing bid:', error);
         }
-        closeModal();
-        router.push("/");
     };
 
     return (
