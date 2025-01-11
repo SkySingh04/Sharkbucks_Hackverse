@@ -1,0 +1,83 @@
+body {
+    margin-top: 150px;
+    background-color: #062c54;
+    color: white;
+    font-family: 'Inter', Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: screen;
+    flex-direction: column;
+    
+
+}
+
+.form-container {
+    margin-top: 130px;
+    padding: 20px;
+    border-radius: 10px;
+    
+    width: 80%;
+    max-width: 600px;
+    height:screen;
+    align-items: center;
+   
+
+}
+
+.investor-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-section {
+    margin-bottom: 20px;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="date"],
+input[type="number"],
+input[type="tel"],
+
+button,
+select {
+    padding: 8px;
+    border: 1px solid white;
+    border-radius: 5px;
+    background-color: transparent;
+    color: white;
+    margin-top: 5px;
+}
+
+button {
+    cursor: pointer;
+    background-color: #062c54;
+    padding: 10px;
+    margin-top: 5px;
+    border: none;
+    border-radius: 4px;
+
+    
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.preferences,
+.selected-preferences {
+    
+    justify-content: space-between;
+    background-color: #062c54;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.selected-preferences {
+    margin-top: 10px;
+}

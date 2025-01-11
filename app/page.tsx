@@ -9,10 +9,11 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <div className="flex justify-space-between">
-      {/* <h1 className="text-4xl font-bold text-center mt-[60px] ">#EveryoneIsASHARK</h1> */}
       <div className=''>
       {/* Carousel displaying random bids */}
-      <h2 className="text-4xl font-bold text-center mt-[60px] ">Become a shark today!</h2>
+      <h1 className="text-4xl font-bold text-center mt-[60px] ">#EveryoneIsASHARK</h1>
+
+      {/* <h2 className="text-4xl font-bold text-center mt-[60px] ">Become a shark today!</h2> */}
       </div>
       </div>
       <div className="flex flex-wrap items-center justify-center mt-8 md:space-x-[100px]">
