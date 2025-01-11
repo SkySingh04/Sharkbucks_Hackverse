@@ -76,6 +76,12 @@ const SmeListingPage = () => {
     return (
         <div className="page">
             <div className="flex justify-between items-center mt-[100px] mb-0 w-full">
+                <button 
+                    className="pref border border-amber-500 p-4"
+                    onClick={() => router.push("/mybids")}
+                >
+                    View My Bids
+                </button>
                 <h1 className="section-title text-center text-4xl">Investor Dashboard</h1>
                 <button 
                     className="pref border border-amber-500 p-4"

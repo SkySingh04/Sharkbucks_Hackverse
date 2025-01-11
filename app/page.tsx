@@ -88,7 +88,6 @@ export default function Home() {
         </h2>
       </div>
 
-      /* Dialog Box */
       {showDialog && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75">
           <div className="bg-gray-800 p-8 rounded-md shadow-md text-white">
