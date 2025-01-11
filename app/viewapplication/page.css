@@ -1,39 +1,65 @@
+/* Container for viewing the application */
 .view-application-container {
-    margin-top: 8rem;
     display: flex;
-    justify-content: center;
+    justify-content: center; /* Horizontally center */
+    align-items: center; /* Vertically center */
+    min-height: calc(100vh - 16rem); /* Center within the viewport, accounting for margin */
+    padding: 20px; /* Add padding for spacing */
+    background-color: #121212; /* Dark background for contrast */
+    box-sizing: border-box; /* Ensure padding is included in the height calculation */
+    margin-top: 8rem; /* Maintain the original margin-top if required */
 }
 
+/* Application detail box */
 .application-details {
-    max-width: 800px;
+    max-width: 900px;
     width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    border: 2px solid white;
-    background-color: #092545;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 12px;
+    background-color: #1E1E1E; /* Dark theme background */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Softer and more subtle shadow */
+    transition: box-shadow 0.3s ease;
 }
 
+/* Application title */
 .application-title {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: bold;
-    margin-bottom: 10px;
+    color: #90CAF9; /* Light blue color for emphasis */
+    margin-bottom: 20px;
+    padding-top: 40px; /* Increased padding above the title */
+    text-align: center;
 }
 
+/* Modern grid layout for the details */
 .details-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Flexible column layout */
+    gap: 16px; /* Modern, balanced spacing */
+    margin-bottom: 20px; /* Consistent bottom margin */
 }
 
 .details-grid p {
-    border: 1px solid white;
-    background-color: #0f3a68;
-    padding: 10px;
-    font-size: 14px;
-    margin-bottom: 10px;
-    border-radius: 10px;
+    background: linear-gradient(145deg, #1F1F1F, #292929); /* Subtle gradient background */
+    padding: 20px; /* Comfortable padding for readability */
+    border-radius: 12px; /* Softer corners for modern style */
+    font-size: 16px;
+    color: #E0E0E0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(255, 255, 255, 0.1); /* Layered shadow for depth */
+    border: none; /* Removed borders for a cleaner look */
+    text-align: center; /* Centered text for better visual balance */
+    transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s; /* Smooth animations */
 }
+
+/* Hover effect for the detail boxes */
+.details-grid p:hover {
+    transform: translateY(-8px) scale(1.02); /* Modern lift and subtle scale on hover */
+    background: linear-gradient(145deg, #292929, #333333); /* Slightly brighter gradient on hover */
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(255, 255, 255, 0.1); /* Enhanced shadow on hover */
+    cursor: pointer;
+}
+
+/* Video link section */
 .videolink {
     display: flex;
     align-items: center;
@@ -41,43 +67,109 @@
 }
 
 .video-link {
-    text-decoration: none; /* Remove default link underline */
+    font-size: 16px;
+    color: #64B5F6; /* Bright link color */
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.video-link:hover {
+    color: #90CAF9; /* Change color on hover */
+    text-decoration: underline;
 }
 
 .video-icon {
     display: flex;
     align-items: center;
-    width: 30px; 
-    height: 30px;
-    vertical-align: middle; /* Align icon vertically with text */
-    margin-left: 7px; /* Add spacing between icon and text */
-    cursor: pointer; /* Show pointer cursor on hover */
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background-color: #1A4567; /* Dark icon background */
+    border-radius: 50%;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .video-icon:hover {
-    opacity: 0.8; /* Reduce opacity on hover for visual feedback */
+    background-color: #90CAF9; /* Lighten icon on hover */
 }
 
+/* Pitch box style */
 .pitch-box {
-    margin-top: 10px;
+    margin-top: 20px;
     font-size: 14px;
-    margin-bottom: 20px;
     text-align: center;
-    border: 1px solid white;
+    border: 1px solid #90CAF9;
     background-color: #0f3a68;
-    border-radius: 10px;
-    padding: 10px;
+    border-radius: 12px;
+    padding: 15px;
+    color: #E0E0E0;
 }
 
+/* Textarea for pitch input */
 .pitch-textarea {
-    border: 1px solid white;
+    width: 100%;
+    min-height: 120px;
+    padding: 15px;
+    border-radius: 8px;
     background-color: #0f3a68;
-    
-    width: 100%; 
-    min-height: 100px; 
-    padding: 10px;
-    border-radius: 4px;
-    margin-right: 10px;
+    border: 1px solid #90CAF9;
+    color: #FFFFFF;
     font-size: 16px;
-    resize: vertical; 
+    resize: vertical;
+    margin-top: 10px;
+    transition: border-color 0.3s ease;
+}
+
+/* Focus effect on textarea */
+.pitch-textarea:focus {
+    border-color: #64B5F6; /* Bright border on focus */
+    outline: none;
+}
+
+/* Button style */
+button {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    background-color: #64B5F6;
+    color: #000000;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #90CAF9; /* Lighter blue on hover */
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+    .details-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for smaller screens */
+        gap: 12px; /* Slightly tighter spacing for smaller screens */
+    }
+
+    .application-details {
+        padding: 15px; /* Reduced padding on smaller screens */
+    }
+
+    .application-title {
+        font-size: 24px; /* Slightly smaller font for title */
+        padding-top: 30px; /* Adjust padding for smaller screens */
+    }
+
+    .pitch-box {
+        font-size: 12px; /* Smaller font size for pitch box */
+    }
+
+    .pitch-textarea {
+        min-height: 100px; /* Adjusted height for textarea */
+    }
+
+    button {
+        padding: 12px; /* Smaller padding for button */
+    }
 }
