@@ -42,10 +42,10 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar fixed top-0 w-full z-50 bg-slate-800 text-white  flex justify-between">
+    <div className="navbar fixed top-0 w-full z-50 bg-slate-800 text-white">
       <div className="navbar-start">
-      <a href="/" className="font-bold p-2">
-      SharkBucks {/* Add your logo here */}
+      <a href="/" className="text-lg font-bold p-2">
+      SharkBucks
       </a>
       </div>
       <div className="navbar-end text-center">

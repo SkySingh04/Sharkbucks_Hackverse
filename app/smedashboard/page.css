@@ -1,0 +1,159 @@
+.investor-dashboard {
+    
+    display: grid;
+    margin-top: 100px;
+    grid-template-columns: 1fr 1fr;
+    height: 100%;
+    
+}
+.dashboard-container{
+    display: grid;
+    margin-top: 100px;
+    grid-template-columns: 1fr 1fr;
+    height: 100%;
+
+}
+.section-title {
+    text-align:center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    font-family: 'Inter', sans-serif;
+}
+
+.section-subtitle {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.applications-list {
+    overflow-y: auto;
+    max-height: calc(100vh - 100px); /* Adjust as needed */
+}
+
+.application-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    height:auto;
+    width:auto;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.company-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.loan-details {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+}
+.buttons{
+    display: flex;
+    justify-content: space-between;
+}
+.view-button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    align-self: left;
+    background-color: #007bff;
+    color: #fff;
+}
+
+.view-bid{
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    align-self: left;
+    background-color: #99d98c;
+    color: #fff;
+}
+
+.create-application-button {
+
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    align-self: right;
+    justify-self: right;
+    background-color: #28a745;
+    color: #fff;
+}
+
+.no-applications {
+    color: #666;
+    font-size: 16px;
+    font-style: italic;
+}
+
+.chatbot {
+    margin-top: 100px;
+    padding: 20px;
+    overflow-y: auto;
+}
+.chatbot h1{
+    text-align:center;
+    justify-content: center;
+    font-size: 24px;
+    
+    margin-bottom: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.dashboard-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  .left-side {
+    padding: 20px;
+    overflow-y: auto;
+  }
+  
+  .right-side {
+    padding: 20px;
+    overflow-y: auto;
+  }
+  
+  .left-side,.right-side {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .applications-list {
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+  
+  .chatbot {
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+  
+  .left-side {
+    grid-column: 1 / 2;
+  }
+  
+  .right-side {
+    grid-column: 2 / 3;
+  }
+  
+
+  
