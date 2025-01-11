@@ -1,0 +1,11 @@
+[package]
+name = "mypayment_module"
+version = "0.0.0"
+
+[addresses]
+named_addr = "316c1dcbd2a477e156eba64fa0184903a67e2097a170dbbf16add5b1e66d4b41"
+
+[dependencies.AptosStdlib]
+git = "https://github.com/aptos-labs/aptos-framework.git"
+rev = "main"
+subdir = "aptos-stdlib"
