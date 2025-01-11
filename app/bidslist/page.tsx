@@ -84,7 +84,7 @@ const MyComponent = () => {
 
     return (
         <div className='h-screen'>
-            <h2 className="text-xl font-bold mb-4 mt-32">Bids Received</h2>
+            <h2 className="text-xl font-bold mb-4 mt-[100px]">Bids Received</h2>
             {filteredBids.length === 0 ? (
                 <p className='text-center text-4xl'>No bids yet :/</p>
             ) : (
