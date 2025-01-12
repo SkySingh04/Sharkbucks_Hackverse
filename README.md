@@ -8,7 +8,7 @@ Sharkbucks is a cutting-edge auction platform designed to seamlessly connect inv
 
 ### **Presentation Link**: [Drive](https://drive.google.com/drive/folders/1c2_8mIcpVy22jw8k0p0buij4mfBQs3a7)
 
-### **Demo Video Link**: [Drive]https://drive.google.com/drive/folders/1c2_8mIcpVy22jw8k0p0buij4mfBQs3a7)
+### **Demo Video Link**: [Drive](https://drive.google.com/drive/folders/1c2_8mIcpVy22jw8k0p0buij4mfBQs3a7)
 
 ### **Deployment Link**: [Sharkbucks App](https://sharkbucks.vercel.app/)
 
