@@ -9,6 +9,8 @@ import { useEdgeStore } from "../lib/edgestore";
 import { getDocs, collection, updateDoc } from 'firebase/firestore';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSearchParams, useRouter } from 'next/navigation';
+import { verifyDocument } from '../utils/verification';
+import { getDocument } from "pdfjs-dist";
 // import { Upload, CheckCircle, X, Loader2 } from 'lucide-react';
 
 const LoanApplicationForm = () => {
@@ -132,18 +134,25 @@ const LoanApplicationForm = () => {
     return true;
   };
 
+  
   const handleDrop = useCallback(async (e: React.DragEvent<HTMLDivElement>, type: keyof typeof files) => {
     e.preventDefault();
     e.stopPropagation();
-
+  
     const droppedFile = e.dataTransfer.files[0];
     if (!droppedFile) return;
-
+  
+    // Check if file is PDF
+    // if (droppedFile.type !== 'application/pdf') {
+    //   toast.error('Please upload PDF files only');
+    //   return;
+    // }
+  
     setFiles(prev => ({
       ...prev,
       [type]: { ...prev[type], file: droppedFile, status: 'validating' as const }
     }));
-
+  
     const isValid = await validateFile(droppedFile, type);
     if (isValid) {
       try {
@@ -155,29 +164,46 @@ const LoanApplicationForm = () => {
           }));
           return;
         }
-
+  
+        // Upload to EdgeStore
         const res = await edgestore.publicFiles.upload({
           file: droppedFile,
           onProgressChange: (progress: any) => {
             console.log(progress);
           },
         });
+  
+        // Extract text from PDF
+        // const extractedText = await extractPDFText(droppedFile);
+        // console.log(extractedText);
+        
+        // Verify the document
+        const verificationResult = await verifyDocument(droppedFile, type);
+        console.log(verificationResult);
 
-        setFiles(prev => ({
-          ...prev,
-          [type]: { file: droppedFile, status: 'success', url: res.url }
-        }));
-        toast.success(`${type} uploaded successfully!`);
+        if (verificationResult.isValid) {
+          setFiles(prev => ({
+            ...prev,
+            [type]: { file: droppedFile, status: 'success', url: res.url }
+          }));
+          toast.success(`${type} verified and uploaded successfully!`);
+        } else {
+          setFiles(prev => ({
+            ...prev,
+            [type]: { ...prev[type], status: 'error' }
+          }));
+          toast.error(`${type} verification failed: ${verificationResult}`);
+        }
       } catch (error) {
         setFiles(prev => ({
           ...prev,
           [type]: { ...prev[type], status: 'error' }
         }));
-        toast.error(`Failed to upload ${type}`);
+        toast.error(`Failed to process ${type}`);
       }
     }
   }, [edgestore]);
-
+  
   const handleSubmit = async () => {
     const allFilesUploaded = Object.values(files).every(file => file.status === 'success');
     

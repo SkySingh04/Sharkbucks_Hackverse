@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import "./chatbot.css";
 import { template } from "../data";
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
-
+ 
 
 const Chatbot = () => {
   const [msg, setMsg] = useState("");
@@ -15,7 +15,6 @@ const Chatbot = () => {
 
   useEffect(() => {
     console.log(botresponse);
-    // Add any other logic that depends on botresponse here
   }, [botresponse]);
 
   const handleClick = async () => {
