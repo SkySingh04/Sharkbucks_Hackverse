@@ -140,9 +140,7 @@ const SmeListingPage = () => {
                 if (docRef) {
                     const applications = [];
                     (await docRef).forEach((doc) => {
-                        if (doc.data().userId === loggedInUser) {
                             applications.push(doc.data());
-                        }
                     });
                     
                     // Sort applications - special ones first
