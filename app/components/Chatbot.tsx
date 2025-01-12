@@ -84,7 +84,7 @@ const Chatbot = () => {
       ]);
   
       // Change API URL to your ngrok endpoint
-      const response = await fetch('https://df6e-160-20-123-3.ngrok-free.app/chat', { 
+      const response = await fetch('https://44ff-160-20-123-3.ngrok-free.app/chat', { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
