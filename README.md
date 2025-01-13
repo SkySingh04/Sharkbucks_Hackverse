@@ -6,9 +6,9 @@ Welcome to Sharkbucks - your gateway to revolutionizing financial inclusion!
 
 Sharkbucks is a cutting-edge auction platform designed to seamlessly connect investors and SMEs. Our platform empowers investors with easy access to pitches, a plethora of resources, and the ability to competitively bid on loan tenures, interest amounts, and capital. Through our finely-tuned Machine Learning model, we ensure SMEs are matched with compatible investors, optimizing the investment process. For SMEs, Sharkbucks offers unparalleled access to competitive loan offers, facilitating easy access to much-needed funds. Our platform operates on a small platform fee, charged only upon successful loan application approval, ensuring sustainability while providing essential services to both investors and SMEs. Sharkbucks also integrates a valuable NLP Chatbot feature that assists users in navigating government schemes and exploring investment opportunities.
 
-### **Presentation Link**: [Drive](https://drive.google.com/file/d/18jro9yVBT8Hoh17EqU1Okyy1JAoUWs75/view?usp=sharing)
+### **Presentation Link**: [Drive](https://drive.google.com/drive/folders/1c2_8mIcpVy22jw8k0p0buij4mfBQs3a7)
 
-### **Demo Video Link**: [Drive](https://drive.google.com/file/d/1tGseSuNU1rtm8VCTEkXZg5Bg1J3g_opw/view)
+### **Demo Video Link**: [Drive](https://drive.google.com/drive/folders/1c2_8mIcpVy22jw8k0p0buij4mfBQs3a7)
 
 ### **Deployment Link**: [Sharkbucks App](https://sharkbucks.vercel.app/)
 
