@@ -2,8 +2,8 @@ import os
 from groclake.modellake import ModelLake
 
 # Environment variable setup
-GROCLAKE_API_KEY = '65b9eea6e1cc6bb9f0cd2a47751a186f'
-GROCLAKE_ACCOUNT_ID = '3ddb1f07de092e40e54278fb4a779285'
+GROCLAKE_API_KEY = '<YOUR API KEY>'
+GROCLAKE_ACCOUNT_ID = '<YOUR GROCLAKE_ACCOUNT_ID>'
 
 os.environ['GROCLAKE_API_KEY'] = GROCLAKE_API_KEY
 os.environ['GROCLAKE_ACCOUNT_ID'] = GROCLAKE_ACCOUNT_ID
