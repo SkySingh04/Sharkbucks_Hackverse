@@ -16,7 +16,7 @@ Sharkbucks is a cutting-edge auction platform designed to seamlessly connect inv
 
 ## **Tracks**
 
-Sharkbucks is proudly applying for the following tracks at HackBangalore 2024:
+Sharkbucks is proudly applying for the following tracks at HackVerse 5.0:
 
 1. **APTOS Track**:  
    - Updated Aptos integration is utilized for secure and scalable on-chain payments.
